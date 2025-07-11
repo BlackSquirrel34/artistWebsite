@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
+import ImageBlock from '@/blocks/image/ImageBlock'
 
 export default async function FirstPage({ params }: { params: { slug: string } }) {
   const headers = await getHeaders()
@@ -32,11 +33,14 @@ export default async function FirstPage({ params }: { params: { slug: string } }
     return <div>Page not found</div>
   }
 
+  // goal: centralize this
   // gets passed in one block and switches depending on its type
   const renderBlock = (block: Page['layout'][0]) => {
     switch (block.blockType) {
       case 'hero':
         return <HeroBlock block={block} key={block.id} />
+      case 'image':
+        return <ImageBlock block={block} key={block.id} />
       default:
         return null
     }
@@ -48,9 +52,9 @@ export default async function FirstPage({ params }: { params: { slug: string } }
     text-amber-300"
     >
       <h1>Welcome from a page</h1>
-      {/* <div>
+      <div>
         {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
-      </div> */}
+      </div>
       <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
       <div>
         {!user && <h1>Welcome to your new project.</h1>}

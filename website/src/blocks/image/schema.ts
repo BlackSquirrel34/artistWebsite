@@ -1,7 +1,12 @@
 import { Block } from 'payload'
 
-export const Image: Block = {
+export const ImageBlock: Block = {
   slug: 'image',
+  interfaceName: 'image',
+  labels: {
+    singular: 'Image',
+    plural: 'Images',
+  },
   fields: [
     {
       name: 'image',
@@ -9,6 +14,11 @@ export const Image: Block = {
       type: 'upload',
       relationTo: 'media',
       required: true,
+    },
+    {
+      type: 'radio',
+      name: 'ImageAspectRatio',
+      options: ['Quadrat', 'Breit', 'Hoch'],
     },
   ],
 }

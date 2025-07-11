@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
+import ImageBlock from '@/blocks/image/ImageBlock'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -45,9 +46,10 @@ export default async function HomePage() {
       className="flex flex-col min-h-screen bg-blue-700
     text-amber-300"
     >
-      {/* <div>
+      {/*  <div>
         {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
       </div> */}
+
       <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
       <div>
         {!user && <h1>Welcome to your new project.</h1>}

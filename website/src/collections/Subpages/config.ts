@@ -1,4 +1,5 @@
 import { HeroBlock } from '@/blocks/hero/schema'
+import { ImageBlock } from '@/blocks/image/schema'
 import { CollectionConfig } from 'payload'
 
 export const Subpages: CollectionConfig = {
@@ -34,7 +35,7 @@ export const Subpages: CollectionConfig = {
       name: 'layout',
       label: 'Layout',
       type: 'blocks',
-      blocks: [HeroBlock],
+      blocks: [HeroBlock, ImageBlock],
     },
   ],
 }

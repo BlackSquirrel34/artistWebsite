@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
+import ImageBlock from '@/blocks/image/ImageBlock'
 
 export default async function SubPage({ params }: { params: { slug: string; subslug: string } }) {
   const headers = await getHeaders()
@@ -38,6 +39,8 @@ export default async function SubPage({ params }: { params: { slug: string; subs
     switch (block.blockType) {
       case 'hero':
         return <HeroBlock block={block} key={block.id} />
+      case 'image':
+        return <ImageBlock block={block} key={block.id} />
       default:
         return null
     }

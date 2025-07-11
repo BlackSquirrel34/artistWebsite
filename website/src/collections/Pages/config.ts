@@ -2,6 +2,7 @@
 import { RichText } from '@/blocks/richText/schema'
 import { Image } from '@/blocks/image/schema' */
 import { HeroBlock } from '@/blocks/hero/schema'
+import { ImageBlock } from '@/blocks/image/schema'
 import { CollectionConfig } from 'payload'
 
 export const Pages: CollectionConfig = {
@@ -30,7 +31,7 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       label: 'Layout',
       type: 'blocks',
-      blocks: [HeroBlock],
+      blocks: [HeroBlock, ImageBlock],
     },
     // Add relationship to sub-pages
     {

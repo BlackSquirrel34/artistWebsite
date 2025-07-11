@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
+import { CV } from './globals/CV'
 import { Pages } from './collections/Pages/config'
 import { Subpages } from './collections/Subpages/config'
 
@@ -25,7 +26,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Pages, Subpages],
-  globals: [Header, Footer],
+  globals: [Header, Footer, CV],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

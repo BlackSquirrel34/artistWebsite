@@ -91,10 +91,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    cv: Cv;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    cv: CvSelect<false> | CvSelect<true>;
   };
   locale: null;
   user: User & {
@@ -175,32 +177,46 @@ export interface Page {
   name: string;
   slug: string;
   layout?:
-    | {
-        heading: string;
-        subheading?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
+    | (
+        | {
+            heading: string;
+            subheading?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
               [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        image: number | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
-      }[]
+            } | null;
+            image: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Image
+      )[]
     | null;
   subPages?: (number | Subpage)[] | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image".
+ */
+export interface Image {
+  image: number | Media;
+  ImageAspectRatio?: ('Quadrat' | 'Breit' | 'Hoch') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'image';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -212,28 +228,31 @@ export interface Subpage {
   slug: string;
   parentPage: number | Page;
   layout?:
-    | {
-        heading: string;
-        subheading?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
+    | (
+        | {
+            heading: string;
+            subheading?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
               [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        image: number | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
-      }[]
+            } | null;
+            image: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Image
+      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -362,10 +381,21 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        image?: T | ImageSelect<T>;
       };
   subPages?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image_select".
+ */
+export interface ImageSelect<T extends boolean = true> {
+  image?: T;
+  ImageAspectRatio?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -387,6 +417,7 @@ export interface SubpagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        image?: T | ImageSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -456,6 +487,22 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cv".
+ */
+export interface Cv {
+  id: number;
+  cvEvents?:
+    | {
+        year: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -485,6 +532,22 @@ export interface FooterSelect<T extends boolean = true> {
         id?: T;
       };
   copyrightNotice?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cv_select".
+ */
+export interface CvSelect<T extends boolean = true> {
+  cvEvents?:
+    | T
+    | {
+        year?: T;
+        description?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

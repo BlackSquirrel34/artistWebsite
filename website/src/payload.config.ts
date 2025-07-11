@@ -7,13 +7,20 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
+// collections
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages/config'
+import { Subpages } from './collections/Subpages/config'
+
+// globals
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { CV } from './globals/CV'
-import { Pages } from './collections/Pages/config'
-import { Subpages } from './collections/Subpages/config'
+import { Exhibitions } from './globals/Exhibitions'
+import { ExhibParts } from './globals/ExhibParts'
+import { Acquisitions } from './globals/Acquisitions'
+import { ContactInformation } from './globals/Contact'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,7 +33,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Pages, Subpages],
-  globals: [Header, Footer, CV],
+  globals: [Header, Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

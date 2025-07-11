@@ -91,12 +91,20 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    exhibition: Exhibition;
+    exhibpart: Exhibpart;
+    acquis: Acqui;
     cv: Cv;
+    contact: Contact;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    exhibition: ExhibitionSelect<false> | ExhibitionSelect<true>;
+    exhibpart: ExhibpartSelect<false> | ExhibpartSelect<true>;
+    acquis: AcquisSelect<false> | AcquisSelect<true>;
     cv: CvSelect<false> | CvSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
   };
   locale: null;
   user: User & {
@@ -487,6 +495,65 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibition".
+ */
+export interface Exhibition {
+  id: number;
+  'Year with Exhibition'?:
+    | {
+        year: string;
+        exhibitions?:
+          | {
+              description: string;
+              katalog?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibpart".
+ */
+export interface Exhibpart {
+  id: number;
+  yearExhibPart?:
+    | {
+        year: string;
+        exhibitions?:
+          | {
+              description: string;
+              katalog?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "acquis".
+ */
+export interface Acqui {
+  id: number;
+  acquisitionEvents?:
+    | {
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cv".
  */
 export interface Cv {
@@ -498,6 +565,20 @@ export interface Cv {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  contactDetails: {
+    name: string;
+    address: string;
+    email: string;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -538,6 +619,65 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibition_select".
+ */
+export interface ExhibitionSelect<T extends boolean = true> {
+  'Year with Exhibition'?:
+    | T
+    | {
+        year?: T;
+        exhibitions?:
+          | T
+          | {
+              description?: T;
+              katalog?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "exhibpart_select".
+ */
+export interface ExhibpartSelect<T extends boolean = true> {
+  yearExhibPart?:
+    | T
+    | {
+        year?: T;
+        exhibitions?:
+          | T
+          | {
+              description?: T;
+              katalog?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "acquis_select".
+ */
+export interface AcquisSelect<T extends boolean = true> {
+  acquisitionEvents?:
+    | T
+    | {
+        description?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cv_select".
  */
 export interface CvSelect<T extends boolean = true> {
@@ -547,6 +687,22 @@ export interface CvSelect<T extends boolean = true> {
         year?: T;
         description?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  contactDetails?:
+    | T
+    | {
+        name?: T;
+        address?: T;
+        email?: T;
       };
   updatedAt?: T;
   createdAt?: T;

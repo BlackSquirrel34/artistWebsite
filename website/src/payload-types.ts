@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     pages: Page;
     subpages: Subpage;
+    toc: Toc;
+    texts: Text;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     subpages: SubpagesSelect<false> | SubpagesSelect<true>;
+    toc: TocSelect<false> | TocSelect<true>;
+    texts: TextsSelect<false> | TextsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -267,6 +271,59 @@ export interface Subpage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "toc".
+ */
+export interface Toc {
+  id: number;
+  entries?:
+    | {
+        title: string;
+        link: string;
+        author: string;
+        textRelation: number | Text;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts".
+ */
+export interface Text {
+  id: number;
+  TOCentry?: (number | null) | Toc;
+  title: string;
+  subtitle?: string | null;
+  author: string;
+  layout?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'richText';
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -287,6 +344,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subpages';
         value: number | Subpage;
+      } | null)
+    | ({
+        relationTo: 'toc';
+        value: number | Toc;
+      } | null)
+    | ({
+        relationTo: 'texts';
+        value: number | Text;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -426,6 +491,46 @@ export interface SubpagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         image?: T | ImageSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "toc_select".
+ */
+export interface TocSelect<T extends boolean = true> {
+  entries?:
+    | T
+    | {
+        title?: T;
+        link?: T;
+        author?: T;
+        textRelation?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts_select".
+ */
+export interface TextsSelect<T extends boolean = true> {
+  TOCentry?: T;
+  title?: T;
+  subtitle?: T;
+  author?: T;
+  layout?:
+    | T
+    | {
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

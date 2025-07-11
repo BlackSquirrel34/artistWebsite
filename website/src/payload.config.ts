@@ -21,6 +21,8 @@ import { Exhibitions } from './globals/Exhibitions'
 import { ExhibParts } from './globals/ExhibParts'
 import { Acquisitions } from './globals/Acquisitions'
 import { ContactInformation } from './globals/Contact'
+import { Texts } from './collections/Texts/config'
+import { TOC } from './collections/TOC/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,7 +34,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, Subpages],
+  collections: [Users, Media, Pages, Subpages, TOC, Texts],
   globals: [Header, Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

@@ -3,6 +3,7 @@ import { RichText } from '@/blocks/richText/schema'
 import { Image } from '@/blocks/image/schema' */
 import { HeroBlock } from '@/blocks/hero/schema'
 import { ImageBlock } from '@/blocks/image/schema'
+import { RichTextBlock } from '@/blocks/richText/schema'
 import { CollectionConfig } from 'payload'
 
 export const Pages: CollectionConfig = {

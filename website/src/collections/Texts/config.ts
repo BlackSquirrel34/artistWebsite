@@ -12,7 +12,7 @@ export const Texts: CollectionConfig = {
     // make visible just for dev.
     // that's how we ensure no orphaned texts are created
     // upon rendering we'll just use the toc and query via the relationship
-    hidden: true,
+    //  hidden: true,
   },
   fields: [
     {

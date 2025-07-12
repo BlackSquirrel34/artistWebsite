@@ -1,13 +1,11 @@
-import { CollectionConfig } from 'payload'
+import { GlobalConfig } from 'payload'
 
-export const TOC: CollectionConfig = {
+export const TOC: GlobalConfig = {
   slug: 'toc',
-  labels: {
-    singular: 'Inhaltsverzeichnis',
-    plural: 'Inhaltsverzeichnisse',
-  },
+  label: 'Inhaltsverzeichnis',
   admin: {
-    group: 'Texte',
+    group: 'Bilder und Texte',
+    // we ensure Texts are created from here so there are no orphans
   },
   fields: [
     {

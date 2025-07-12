@@ -5,8 +5,16 @@ import { CollectionConfig } from 'payload'
 export const Subpages: CollectionConfig = {
   slug: 'subpages',
   labels: {
-    singular: 'Sub-Page',
-    plural: 'Sub-Pages',
+    singular: 'Unterseite',
+    plural: 'Unterseiten',
+  },
+  admin: {
+    group: 'Seiten und Navigationsmenü',
+    // make visible just for dev.
+    // that's how we ensure no orphaned sub-pages are created
+    // they must be created via Pages
+    // upon rendering we'll just use the pages and query via the relationship
+    // hidden: true,
   },
   fields: [
     {

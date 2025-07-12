@@ -4,7 +4,7 @@ export const ContactInformation: GlobalConfig = {
   slug: 'contact',
   label: 'Kontaktdaten',
   admin: {
-    group: 'Personal',
+    group: 'Persönliches',
   },
   fields: [
     {

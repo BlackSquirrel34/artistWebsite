@@ -12,17 +12,18 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages/config'
 import { Subpages } from './collections/Subpages/config'
+import { Texts } from './collections/Texts/config'
 
 // globals
-import { Header } from './globals/Header'
+import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
 import { CV } from './globals/CV'
 import { Exhibitions } from './globals/Exhibitions'
 import { ExhibParts } from './globals/ExhibParts'
 import { Acquisitions } from './globals/Acquisitions'
 import { ContactInformation } from './globals/Contact'
-import { Texts } from './collections/Texts/config'
-import { TOC } from './collections/TOC/config'
+
+import { TOC } from './globals/TOC'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,8 +35,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, Subpages, TOC, Texts],
-  globals: [Header, Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
+  collections: [Pages, Subpages, Texts, Users, Media],
+  globals: [Navigation, Footer, TOC, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

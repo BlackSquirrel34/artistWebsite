@@ -2,9 +2,9 @@ import { GlobalConfig } from 'payload'
 
 export const CV: GlobalConfig = {
   slug: 'cv',
-  label: 'BIO',
+  label: 'Biographie',
   admin: {
-    group: 'Personal',
+    group: 'Persönliches',
   },
   fields: [
     {

@@ -2,6 +2,11 @@ import { GlobalConfig } from 'payload'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  // visible just for dev
+  admin: {
+    group: 'Seiten und Navigationsmenü',
+    // hidden: true,
+  },
   fields: [
     {
       name: 'logo',

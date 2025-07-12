@@ -8,23 +8,13 @@ export const Texts: CollectionConfig = {
     plural: 'Texte',
   },
   admin: {
-    group: 'Texte',
+    group: 'Bilder und Texte',
+    // make visible just for dev.
+    // that's how we ensure no orphaned texts are created
+    // upon rendering we'll just use the toc and query via the relationship
+    hidden: true,
   },
   fields: [
-    /*     {
-      name: 'name',
-      label: 'Name',
-      type: 'text',
-      required: true,
-    }, */
-    // each text must be associated with a toc-entry and vice versa
-    // not sure whether we actualy will need this direction anywhere
-    {
-      name: 'TOCentry',
-      type: 'relationship',
-      relationTo: 'toc',
-      // required: true,
-    },
     {
       name: 'title',
       label: 'Überschrift',

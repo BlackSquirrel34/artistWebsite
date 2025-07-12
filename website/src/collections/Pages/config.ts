@@ -8,8 +8,13 @@ import { CollectionConfig } from 'payload'
 export const Pages: CollectionConfig = {
   slug: 'pages',
   labels: {
-    singular: 'Page',
-    plural: 'Pages',
+    singular: 'Seite',
+    plural: 'Seiten',
+  },
+  admin: {
+    group: 'Seiten und Navigationsmenü',
+    // subpages must be created via Pages
+    // upon rendering we'll just use the pages and query via the relationship
   },
   fields: [
     {

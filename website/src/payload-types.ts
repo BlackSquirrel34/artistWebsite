@@ -172,6 +172,7 @@ export interface Page {
         | Image
       )[]
     | null;
+  addText?: (number | Text)[] | null;
   subPages?: (number | Subpage)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -208,6 +209,40 @@ export interface Image {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts".
+ */
+export interface Text {
+  id: number;
+  title: string;
+  subtitle?: string | null;
+  author: string;
+  layout?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'richtext';
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "subpages".
  */
 export interface Subpage {
@@ -241,40 +276,6 @@ export interface Subpage {
           }
         | Image
       )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "texts".
- */
-export interface Text {
-  id: number;
-  title: string;
-  subtitle?: string | null;
-  author: string;
-  layout?:
-    | {
-        content: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'richText';
-      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -393,6 +394,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         image?: T | ImageSelect<T>;
       };
+  addText?: T;
   subPages?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -443,7 +445,7 @@ export interface TextsSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        richText?:
+        richtext?:
           | T
           | {
               content?: T;

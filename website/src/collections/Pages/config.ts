@@ -39,10 +39,19 @@ export const Pages: CollectionConfig = {
       type: 'blocks',
       blocks: [HeroBlock, ImageBlock],
     },
+    // option to add or select a text to be displayed on this page
+    {
+      name: 'addText',
+      type: 'relationship',
+      label: 'Text hinzufügen',
+      hasMany: true,
+      relationTo: 'texts',
+    },
     // Add relationship to sub-pages
     {
       name: 'subPages',
       type: 'relationship',
+      label: 'Unterseite hinzufügen',
       relationTo: 'subpages',
       hasMany: true, // allows multiple sub-pages
     },

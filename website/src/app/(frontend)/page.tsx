@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
 import ImageBlock from '@/blocks/image/ImageBlock'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -41,20 +42,54 @@ export default async function HomePage() {
     }
   }
 
+  const RenderAddTextItems = ({ addText }) => {
+    return (
+      <div>
+        {addText &&
+          addText.length > 0 &&
+          addText.map((item) => (
+            <div key={item.id} style={{ marginBottom: '2em' }}>
+              {/* Render the title */}
+              <h2>{item.title}</h2>
+
+              {/* Render each layout block with richtext content */}
+              {item.layout &&
+                item.layout.length > 0 &&
+                item.layout.map((block) => {
+                  if (block.blockType === 'richtext' && block.content) {
+                    return (
+                      <div key={block.id} style={{ padding: '1em', border: '1px solid #ccc' }}>
+                        {/* Render the richtext content */}
+                        <RichText data={block.content} />
+                      </div>
+                    )
+                  }
+                  return null
+                })}
+            </div>
+          ))}
+      </div>
+    )
+  }
+
   return (
     <div
       className="flex flex-col min-h-screen bg-blue-700
     text-amber-300"
     >
-      {/*  <div>
+      {/*   <div>{page && <pre>{JSON.stringify(page, null, 2)}</pre>}</div> */}
+
+      {/*    <div>
         {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
       </div> */}
 
-      <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
+      {/* <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
       <div>
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}
-      </div>
+      </div>*/}
+
+      <RenderAddTextItems addText={page.addText} />
     </div>
   )
 }

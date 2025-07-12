@@ -18,7 +18,7 @@ import { Block } from 'payload'
 // this block is used on texts collection ONLY to prevent chaos
 
 export const RichTextBlock: Block = {
-  slug: 'richText',
+  slug: 'richtext',
   fields: [
     {
       name: 'content',
@@ -26,12 +26,13 @@ export const RichTextBlock: Block = {
       type: 'richText',
       required: true,
       editor: lexicalEditor({
-        features: () => [
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
           BoldFeature(),
           ItalicFeature(),
           UnderlineFeature(),
           BlockquoteFeature(),
-          HeadingFeature(),
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2'] }),
           AlignFeature(),
           UnorderedListFeature(),
           OrderedListFeature(),

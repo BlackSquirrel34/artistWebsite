@@ -10,7 +10,8 @@ export const Texts: CollectionConfig = {
   admin: {
     group: 'Bilder und Texte',
     // make visible just for dev.
-    // that's how we ensure no orphaned texts are created
+    // that's how we ensure no orphaned texts are created,  e.g.
+    // that are not appearing on any page or where linking is inconsistent to pages collection
     // upon rendering we'll just use the toc and query via the relationship
     //  hidden: true,
   },
@@ -32,7 +33,12 @@ export const Texts: CollectionConfig = {
       type: 'text',
       required: true,
     },
-
+    /* {
+      name: 'shownOnPage',
+      type: 'relationship',
+      relationTo: 'pages',
+      required: true,
+    }, */
     {
       name: 'layout',
       label: 'Content',
@@ -41,3 +47,6 @@ export const Texts: CollectionConfig = {
     },
   ],
 }
+
+// after updating a text we need to run a hook and query if there are conflicts with what is
+// currently stored in the pages collection. or maybe jsut update this one, too.

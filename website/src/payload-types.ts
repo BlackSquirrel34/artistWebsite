@@ -69,9 +69,9 @@ export interface Config {
   collections: {
     pages: Page;
     subpages: Subpage;
-    texts: Text;
     users: User;
     media: Media;
+    texts: Text;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -80,9 +80,9 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     subpages: SubpagesSelect<false> | SubpagesSelect<true>;
-    texts: TextsSelect<false> | TextsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    texts: TextsSelect<false> | TextsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -91,9 +91,7 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    header: Header;
     footer: Footer;
-    toc: Toc;
     exhibition: Exhibition;
     exhibpart: Exhibpart;
     acquis: Acqui;
@@ -101,9 +99,7 @@ export interface Config {
     contact: Contact;
   };
   globalsSelect: {
-    header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    toc: TocSelect<false> | TocSelect<true>;
     exhibition: ExhibitionSelect<false> | ExhibitionSelect<true>;
     exhibpart: ExhibpartSelect<false> | ExhibpartSelect<true>;
     acquis: AcquisSelect<false> | AcquisSelect<true>;
@@ -145,7 +141,7 @@ export interface Page {
   id: number;
   name: string;
   slug: string;
-  layout?:
+  image?:
     | (
         | {
             heading: string;
@@ -172,8 +168,8 @@ export interface Page {
         | Image
       )[]
     | null;
-  addText?: (number | Text)[] | null;
   subPages?: (number | Subpage)[] | null;
+  texts?: (number | Text)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -209,6 +205,45 @@ export interface Image {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subpages".
+ */
+export interface Subpage {
+  id: number;
+  name: string;
+  slug: string;
+  parentPage?: (number | null) | Page;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            image: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Image
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "texts".
  */
 export interface Text {
@@ -237,45 +272,6 @@ export interface Text {
         blockName?: string | null;
         blockType: 'richtext';
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subpages".
- */
-export interface Subpage {
-  id: number;
-  name: string;
-  slug: string;
-  parentPage: number | Page;
-  layout?:
-    | (
-        | {
-            heading: string;
-            subheading?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            image: number | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | Image
-      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -320,16 +316,16 @@ export interface PayloadLockedDocument {
         value: number | Subpage;
       } | null)
     | ({
-        relationTo: 'texts';
-        value: number | Text;
-      } | null)
-    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'texts';
+        value: number | Text;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -380,7 +376,7 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  layout?:
+  image?:
     | T
     | {
         hero?:
@@ -394,8 +390,8 @@ export interface PagesSelect<T extends boolean = true> {
             };
         image?: T | ImageSelect<T>;
       };
-  addText?: T;
   subPages?: T;
+  texts?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -430,28 +426,6 @@ export interface SubpagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         image?: T | ImageSelect<T>;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "texts_select".
- */
-export interface TextsSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  author?: T;
-  layout?:
-    | T
-    | {
-        richtext?:
-          | T
-          | {
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
       };
   updatedAt?: T;
   createdAt?: T;
@@ -498,6 +472,28 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts_select".
+ */
+export interface TextsSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  author?: T;
+  layout?:
+    | T
+    | {
+        richtext?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -530,21 +526,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header".
- */
-export interface Header {
-  id: number;
-  logo: number | Media;
-  nav: {
-    label?: string | null;
-    page: number | Page;
-    id?: string | null;
-  }[];
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
 export interface Footer {
@@ -556,24 +537,6 @@ export interface Footer {
     id?: string | null;
   }[];
   copyrightNotice: string;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "toc".
- */
-export interface Toc {
-  id: number;
-  entries?:
-    | {
-        title: string;
-        link: string;
-        author: string;
-        textRelation: number | Text;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -668,23 +631,6 @@ export interface Contact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header_select".
- */
-export interface HeaderSelect<T extends boolean = true> {
-  logo?: T;
-  nav?:
-    | T
-    | {
-        label?: T;
-        page?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
@@ -697,24 +643,6 @@ export interface FooterSelect<T extends boolean = true> {
         id?: T;
       };
   copyrightNotice?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "toc_select".
- */
-export interface TocSelect<T extends boolean = true> {
-  entries?:
-    | T
-    | {
-        title?: T;
-        link?: T;
-        author?: T;
-        textRelation?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

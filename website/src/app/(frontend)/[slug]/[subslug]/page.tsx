@@ -10,7 +10,14 @@ import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
 import ImageBlock from '@/blocks/image/ImageBlock'
 
-export default async function SubPage({ params }: { params: { slug: string; subslug: string } }) {
+interface PageProps {
+  params: {
+    slug: string
+    subslug: string
+  }
+}
+
+export default async function SubPage({ params }: PageProps) {
   const headers = await getHeaders()
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })

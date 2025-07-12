@@ -9,12 +9,12 @@ export const Subpages: CollectionConfig = {
     plural: 'Unterseiten',
   },
   admin: {
-    group: 'Seiten und Navigationsmenü',
+    group: 'Seiten bearbeiten oder hinzufügen',
     // make visible just for dev.
     // that's how we ensure no orphaned sub-pages are created
     // they must be created via Pages
     // upon rendering we'll just use the pages and query via the relationship
-    // hidden: true,
+    hidden: true,
   },
   fields: [
     {
@@ -37,7 +37,7 @@ export const Subpages: CollectionConfig = {
       name: 'parentPage',
       type: 'relationship',
       relationTo: 'pages',
-      required: true,
+      // required: true,
     },
     {
       name: 'layout',

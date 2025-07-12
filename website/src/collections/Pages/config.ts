@@ -1,6 +1,3 @@
-/* import { Cover } from '@/blocks/cover/schema'
-import { RichText } from '@/blocks/richText/schema'
-import { Image } from '@/blocks/image/schema' */
 import { HeroBlock } from '@/blocks/hero/schema'
 import { ImageBlock } from '@/blocks/image/schema'
 import { RichTextBlock } from '@/blocks/richText/schema'
@@ -13,7 +10,7 @@ export const Pages: CollectionConfig = {
     plural: 'Seiten',
   },
   admin: {
-    group: 'Seiten und Navigationsmenü',
+    group: 'Seiten bearbeiten oder hinzufügen',
     // subpages must be created via Pages
     // upon rendering we'll just use the pages and query via the relationship
   },
@@ -34,26 +31,26 @@ export const Pages: CollectionConfig = {
       required: true,
     },
     {
-      name: 'layout',
-      label: 'Layout',
+      name: 'image',
+      label: 'Bild',
       type: 'blocks',
       blocks: [HeroBlock, ImageBlock],
-    },
-    // option to add or select a text to be displayed on this page
-    {
-      name: 'addText',
-      type: 'relationship',
-      label: 'Text hinzufügen',
-      hasMany: true,
-      relationTo: 'texts',
     },
     // Add relationship to sub-pages
     {
       name: 'subPages',
       type: 'relationship',
-      label: 'Unterseite hinzufügen',
+      label: 'Unterseite',
       relationTo: 'subpages',
-      hasMany: true, // allows multiple sub-pages
+      hasMany: true,
+    },
+    // add texts if needed
+    {
+      name: 'texts',
+      type: 'relationship',
+      label: 'Texte',
+      relationTo: 'texts',
+      hasMany: true,
     },
   ],
 }

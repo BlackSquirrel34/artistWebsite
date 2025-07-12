@@ -4,8 +4,7 @@ export const Footer: GlobalConfig = {
   slug: 'footer',
   // visible just for dev
   admin: {
-    group: 'Seiten und Navigationsmenü',
-    // hidden: true,
+    hidden: true,
   },
   fields: [
     {

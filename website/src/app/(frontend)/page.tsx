@@ -83,11 +83,11 @@ export default async function HomePage() {
         {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
       </div> */}
 
-      {/* <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
+      <div className="page">{page.image?.map((block) => renderBlock(block))}</div>
       <div>
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}
-      </div>*/}
+      </div>
 
       <RenderAddTextItems addText={page.addText} />
     </div>

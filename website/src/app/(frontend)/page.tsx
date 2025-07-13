@@ -10,6 +10,10 @@ import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
 import ImageBlock from '@/blocks/image/ImageBlock'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import BasicMasonry from '@/components/Gallery/BasicMasonry'
+import Gallery2 from '@/components/Gallery/Gallery2'
+import MasonryTailwind from '@/components/Gallery/MasonryTailwind'
+import HookMasonry from '@/components/Gallery/HookMasonry'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -78,18 +82,23 @@ export default async function HomePage() {
     text-amber-300"
     >
       {/*   <div>{page && <pre>{JSON.stringify(page, null, 2)}</pre>}</div> */}
-
       {/*    <div>
         {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
       </div> */}
-
       <div className="page">{page.image?.map((block) => renderBlock(block))}</div>
       <div>
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}
       </div>
-
-      <RenderAddTextItems addText={page.addText} />
+      {/*      <RenderAddTextItems addText={page.addText} /> */}
+      {/*     Adding padding directly to the container reduces the space available for columns, which can
+      cause fewer columns to appear. To keep the masonry layout consistent, avoid adding padding
+      directly to the element with columns- classes; instead, add it to an inner wrapper.  */}
+      <div className="w-4/5 mx-auto py-10">
+        <div className="px-4">
+          <HookMasonry />
+        </div>
+      </div>
     </div>
   )
 }

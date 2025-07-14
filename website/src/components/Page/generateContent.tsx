@@ -45,7 +45,7 @@ export async function generateContent(slug: string): Promise<JSX.Element> {
           resolve(<p>No content available for slug {slug}</p>)
         }
       } else if (found_globals.length > 0) {
-        resolve(<GlobalOnly />)
+        resolve(<GlobalOnly globals={found_globals} />)
       }
       // unreachble code??
       resolve(<div>Hello, this is a slug corresponding to a page or global: {slug}!</div>)

@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url'
 
-import { generateContent } from '@/utils/generateContent'
+import { generateContent } from '@/components/Page/generateContent'
 
 export default async function FirstPage({ params }: { params: { slug: string } }) {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`

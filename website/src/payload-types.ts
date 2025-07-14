@@ -573,7 +573,7 @@ export interface Footer {
  */
 export interface Exhibition {
   id: number;
-  'Year with Exhibition'?:
+  exhibYears?:
     | {
         year: string;
         exhibitions?:
@@ -709,7 +709,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "exhibition_select".
  */
 export interface ExhibitionSelect<T extends boolean = true> {
-  'Year with Exhibition'?:
+  exhibYears?:
     | T
     | {
         year?: T;

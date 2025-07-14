@@ -17,6 +17,9 @@ interface PageProps {
   }
 }
 
+// we defined subpages can ONLY have images (no text, no slugs related to globals)
+// so the whole generateSubPageContent logic is a lot simpler
+
 export default async function SubPage({ params }: PageProps) {
   const headers = await getHeaders()
   const payloadConfig = await config

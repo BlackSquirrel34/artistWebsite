@@ -8,8 +8,8 @@ export const Exhibitions: GlobalConfig = {
   },
   fields: [
     {
-      name: 'Year with Exhibition',
-      label: 'Jahr mit Einzelausstellung',
+      name: 'exhibYears',
+      label: 'Jahre mit Einzelausstellung',
       type: 'array',
       minRows: 1,
       maxRows: 500,

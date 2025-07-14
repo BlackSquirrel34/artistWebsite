@@ -7,23 +7,15 @@ export async function getGlobalsBySlug(slug: string): Promise<Record<string, any
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
-  //infered the type from usage with vscode
-  let globals:
-    | Record<string, any>[]
-    | PromiseLike<Record<string, any>[]>
-    | {
-        global?: DataFromGlobalSlug<GlobalSlug>
-        global1?: DataFromGlobalSlug<GlobalSlug>
-        global2?: DataFromGlobalSlug<GlobalSlug>
-        global3?: DataFromGlobalSlug<GlobalSlug>
-      }[] = []
+  // simplified type
+  let globals: Record<string, any>[] = []
 
   if (slug === 'biographie') {
     try {
       const global = await payload.findGlobal({
         slug: 'cv' as GlobalSlug,
       })
-      globals.push({ global })
+      globals.push(global)
       return globals
     } catch (error) {
       console.error('Error finding global:', error)
@@ -34,7 +26,7 @@ export async function getGlobalsBySlug(slug: string): Promise<Record<string, any
       const global = await payload.findGlobal({
         slug: 'contact' as GlobalSlug,
       })
-      globals.push({ global })
+      globals.push(global)
       return globals
     } catch (error) {
       console.error('Error finding global:', error)
@@ -44,15 +36,15 @@ export async function getGlobalsBySlug(slug: string): Promise<Record<string, any
     const global1 = await payload.findGlobal({
       slug: 'exhibition' as GlobalSlug,
     })
-    globals.push({ global1 })
+    globals.push(global1)
     const global2 = await payload.findGlobal({
       slug: 'exhibpart' as GlobalSlug,
     })
-    globals.push({ global2 })
+    globals.push(global2)
     const global3 = await payload.findGlobal({
       slug: 'acquis' as GlobalSlug,
     })
-    globals.push({ global3 })
+    globals.push(global3)
     return globals
   }
   return globals

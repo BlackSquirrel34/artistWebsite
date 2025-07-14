@@ -1,10 +1,12 @@
-import { DataFromGlobalSlug, getPayload, GlobalSlug } from 'payload'
+import { getPayload } from 'payload'
 import React, { JSX } from 'react'
 import PageNotFound from '@/components/PageNotFound'
-import HookMasonry from '@/components/Gallery/HookMasonry'
-import { fileURLToPath } from 'url'
 import config from '@/payload.config'
 import { getGlobalsBySlug } from './fetchGlobalsBySlug'
+import CombinedPage from '@/components/Page/CombinedPage'
+import ImagesOnly from '@/components/Page/ImagesOnly'
+import TextsOnly from '@/components/Page/TextsOnly'
+import GlobalOnly from '@/components/Page/GlobalOnly'
 
 export async function generateContent(slug: string): Promise<JSX.Element> {
   // we need to ensure we'll return a <notFound /> jsx in case nothing matches the slug and we'd
@@ -28,17 +30,30 @@ export async function generateContent(slug: string): Promise<JSX.Element> {
   return new Promise((resolve) => {
     // there is either a page or global with that slug
     if (page || found_globals.length > 0) {
+      if (page) {
+        // Determine which Page component to render based on page data
+        const hasImages = Array.isArray(page.image) && page.image.length > 0
+        const hasTexts = Array.isArray(page.texts) && page.texts.length > 0
+
+        if (hasImages && hasTexts) {
+          resolve(<CombinedPage page={page} />)
+        } else if (hasImages) {
+          resolve(<ImagesOnly page={page} />)
+        } else if (hasTexts) {
+          resolve(<TextsOnly page={page} />)
+        } else {
+          resolve(<p>No content available for slug {slug}</p>)
+        }
+      } else if (found_globals.length > 0) {
+        resolve(<GlobalOnly />)
+      }
+      // unreachble code??
       resolve(<div>Hello, this is a slug corresponding to a page or global: {slug}!</div>)
     } else {
       // we found neither a page nor a global?
       resolve(<PageNotFound />)
     }
   })
-
-  /* 
-      // Determine which component to render based on page data
-      const hasImages = Array.isArray(page.image) && page.image.length > 0
-      const hasTexts = Array.isArray(page.texts) && page.texts.length > 0  */
 
   /* const renderBlock = (block: Page['layout'][0]) => {
     switch (block.blockType) {

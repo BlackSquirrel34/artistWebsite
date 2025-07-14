@@ -1,19 +1,16 @@
 import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
 import { getPayload } from 'payload'
 import React from 'react'
-import { Page } from '@/payload-types'
+import { Homepage, Page } from '@/payload-types'
 
 import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
-import ImageBlock from '@/blocks/image/ImageBlock'
-import { RichText } from '@payloadcms/richtext-lexical/react'
-import BasicMasonry from '@/components/Gallery/BasicMasonry'
-import Gallery2 from '@/components/Gallery/Gallery2'
-import MasonryTailwind from '@/components/Gallery/MasonryTailwind'
-import HookMasonry from '@/components/Gallery/HookMasonry'
+import PageNotFound from '@/components/PageNotFound'
+import News, { NewsItem } from '@/components/Homepage/News'
+import { extractNews } from '@/utils/extractNews'
+import FallbackImage from '@/components/Homepage/FallbackImage'
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -23,81 +20,44 @@ export default async function HomePage() {
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
-  const {
-    docs: [page],
-  } = await payload.find({
-    collection: 'pages',
-    where: {
-      slug: { equals: 'home' },
-    },
+  const homepage_api_data = await payload.findGlobal({
+    slug: 'homepage', // required
   })
 
-  if (!page) {
-    return <div>Page not found</div>
+  if (!homepage_api_data) {
+    return <PageNotFound />
   }
 
-  // gets passed in one block and switches depending on its type
-  const renderBlock = (block: Page['layout'][0]) => {
-    switch (block.blockType) {
-      case 'hero':
-        return <HeroBlock block={block} key={block.id} />
-      default:
-        return null
-    }
-  }
+  // further do some data crunching to turn json into a news-props for news component
+  // Function to extract news data
+  const news: NewsItem[] = extractNews(homepage_api_data)
+  // console.log('news queried', news)
 
-  const RenderAddTextItems = ({ addText }) => {
-    return (
-      <div>
-        {addText &&
-          addText.length > 0 &&
-          addText.map((item) => (
-            <div key={item.id} style={{ marginBottom: '2em' }}>
-              {/* Render the title */}
-              <h2>{item.title}</h2>
+  // Initialize heroBlockData as null
+  let heroBlockData = null
 
-              {/* Render each layout block with richtext content */}
-              {item.layout &&
-                item.layout.length > 0 &&
-                item.layout.map((block) => {
-                  if (block.blockType === 'richtext' && block.content) {
-                    return (
-                      <div key={block.id} style={{ padding: '1em', border: '1px solid #ccc' }}>
-                        {/* Render the richtext content */}
-                        <RichText data={block.content} />
-                      </div>
-                    )
-                  }
-                  return null
-                })}
-            </div>
-          ))}
-      </div>
-    )
+  // Check if featuredimage exists
+  /* if (homepage_api_data.featuredimage) {
+    // Find the hero block inside featuredimage
+    heroBlockData = homepage_api_data.featuredimage.find((block) => block.blockType === 'hero')
+  } */
+
+  if (homepage_api_data.featuredimage && homepage_api_data.featuredimage.length > 0) {
+    // Find the first block with blockType 'hero'
+    heroBlockData = homepage_api_data.featuredimage.find((block) => block.blockType === 'hero')
   }
 
   return (
-    <div
-      className="flex flex-col min-h-screen bg-blue-700
-    text-amber-300"
-    >
-      {/*   <div>{page && <pre>{JSON.stringify(page, null, 2)}</pre>}</div> */}
-      {/*    <div>
-        {page.layout && page.layout[0] && <pre>{JSON.stringify(page.layout[0], null, 2)}</pre>}
-      </div> */}
-      <div className="page">{page.image?.map((block) => renderBlock(block))}</div>
-      <div>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-      </div>
-      {/*      <RenderAddTextItems addText={page.addText} /> */}
-      {/*     Adding padding directly to the container reduces the space available for columns, which can
-      cause fewer columns to appear. To keep the masonry layout consistent, avoid adding padding
-      directly to the element with columns- classes; instead, add it to an inner wrapper.  */}
-      <div className="w-4/5 mx-auto py-10">
-        <div className="px-4">
-          <HookMasonry />
-        </div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <div className="w-full sm:w-11/12 md:w-4/5 lg:w-2/3 mx-auto px-8 md:px-12 lg:px-24 pb-12 md:pb-24">
+        {/*    <div>{homepage_api_data && <pre>{JSON.stringify(homepage_api_data, null, 2)}</pre>}</div> */}
+        {heroBlockData ? (
+          <HeroBlock block={heroBlockData} key={heroBlockData.id} />
+        ) : (
+          <FallbackImage />
+        )}
+
+        <News news={news} />
       </div>
     </div>
   )

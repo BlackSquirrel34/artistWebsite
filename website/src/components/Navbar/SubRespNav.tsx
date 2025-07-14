@@ -2,7 +2,11 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-export default function CombinedNav() {
+interface SubRespNavProps {
+  ownerName: string
+}
+
+export default function SubRespNav({ ownerName }: SubRespNavProps) {
   const [isOpen, setIsOpen] = useState(false) // mobile menu toggle
   const [activeMainIndex, setActiveMainIndex] = useState(null) // submenu toggle
 
@@ -10,9 +14,12 @@ export default function CombinedNav() {
     setIsOpen(!isOpen)
   }
 
+  // should be called from global "navitems" that is popualted via a hook
+  // whenever a new page is added
+  // we should do this also server-side, inside the fetchNavData helper function
   const mainNavItems = [
     {
-      label: 'Home',
+      label: 'Page',
       href: '/',
       subItems: [
         { label: 'Sub1', href: '/sub1' },
@@ -47,8 +54,8 @@ export default function CombinedNav() {
       {/* Desktop & Mobile Container */}
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         {/* Logo/Home */}
-        <div className="text-2xl font-bold">
-          <Link href="/">Home</Link>
+        <div className="text-xl font-bold">
+          <Link href="/">{ownerName}</Link>
         </div>
 
         {/* Hamburger for mobile */}

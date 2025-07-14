@@ -21,6 +21,7 @@ import { Exhibitions } from './globals/Exhibitions'
 import { ExhibParts } from './globals/ExhibParts'
 import { Acquisitions } from './globals/Acquisitions'
 import { ContactInformation } from './globals/Contact'
+import { Homepage } from './globals/Homepage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,8 +36,8 @@ export default buildConfig({
       beforeDashboard: ['/components/HelloWidget.tsx'],
     },
   },
-  collections: [Pages, Subpages, Users, Media, Texts],
-  globals: [Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
+  collections: [Users, Media, Texts, Pages, Subpages],
+  globals: [Homepage, Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

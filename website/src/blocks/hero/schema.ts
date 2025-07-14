@@ -4,13 +4,9 @@ export const HeroBlock: Block = {
   slug: 'hero',
   fields: [
     {
-      name: 'heading',
+      name: 'description',
       type: 'text',
       required: true,
-    },
-    {
-      name: 'subheading',
-      type: 'richText',
     },
     {
       name: 'image',

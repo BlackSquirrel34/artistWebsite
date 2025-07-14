@@ -37,6 +37,7 @@ export default async function Navbar() {
   }
 
   // we replace the "/home" slug with "/" for usage on the navbar
+  // no longer needed since homepage is now a global and will not be a page
   const prunedNavItems = pagesnav
     .map((page) => ({
       ...page,

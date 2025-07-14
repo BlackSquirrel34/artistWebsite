@@ -34,7 +34,7 @@ export const Pages: CollectionConfig = {
       name: 'image',
       label: 'Bild',
       type: 'blocks',
-      blocks: [HeroBlock, ImageBlock],
+      blocks: [HeroBlock, ImageBlock, RichTextBlock],
     },
     // Add relationship to sub-pages
     {

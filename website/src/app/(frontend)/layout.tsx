@@ -4,6 +4,8 @@ import FooterServer from '@/blocks/global/Footer/Server'
 import Navbar from '@/components/Navbar/Navbar'
 import BasicRespNav from '@/components/Navbar/BasicRespNav'
 import SubRespNav from '@/components/Navbar/SubRespNav'
+import FetchNavData from '@/utils/fetchNavData'
+import Footer from '@/components/Footer'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -13,15 +15,16 @@ export const metadata = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
+  // data fetching (e.g., ownerName) for navbar
+  const ownerName: string = await FetchNavData()
+
   return (
     <html lang="en">
       <body>
         <main>
-          <SubRespNav />
-          <Navbar />
-          Navbar ends here
+          <SubRespNav ownerName={ownerName} />
           {children}
-          {/*     <FooterServer /> */}
+          <Footer />
         </main>
       </body>
     </html>

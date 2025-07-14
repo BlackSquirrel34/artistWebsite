@@ -67,22 +67,22 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    pages: Page;
-    subpages: Subpage;
     users: User;
     media: Media;
     texts: Text;
+    pages: Page;
+    subpages: Subpage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
-    pages: PagesSelect<false> | PagesSelect<true>;
-    subpages: SubpagesSelect<false> | SubpagesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     texts: TextsSelect<false> | TextsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    subpages: SubpagesSelect<false> | SubpagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -91,6 +91,7 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
+    homepage: Homepage;
     footer: Footer;
     exhibition: Exhibition;
     exhibpart: Exhibpart;
@@ -99,6 +100,7 @@ export interface Config {
     contact: Contact;
   };
   globalsSelect: {
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     exhibition: ExhibitionSelect<false> | ExhibitionSelect<true>;
     exhibpart: ExhibpartSelect<false> | ExhibpartSelect<true>;
@@ -135,43 +137,27 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "users".
  */
-export interface Page {
+export interface User {
   id: number;
-  name: string;
-  slug: string;
-  image?:
-    | (
-        | {
-            heading: string;
-            subheading?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            image: number | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | Image
-      )[]
-    | null;
-  subPages?: (number | Subpage)[] | null;
-  texts?: (number | Text)[] | null;
   updatedAt: string;
   createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -191,56 +177,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "image".
- */
-export interface Image {
-  image: number | Media;
-  ImageAspectRatio?: ('Quadrat' | 'Breit' | 'Hoch') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'image';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subpages".
- */
-export interface Subpage {
-  id: number;
-  name: string;
-  slug: string;
-  parentPage?: (number | null) | Page;
-  layout?:
-    | (
-        | {
-            heading: string;
-            subheading?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            image: number | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | Image
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -278,27 +214,83 @@ export interface Text {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "pages".
  */
-export interface User {
+export interface Page {
   id: number;
+  name: string;
+  slug: string;
+  image?:
+    | (
+        | {
+            description: string;
+            image: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Image
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richtext';
+          }
+      )[]
+    | null;
+  subPages?: (number | Subpage)[] | null;
+  texts?: (number | Text)[] | null;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image".
+ */
+export interface Image {
+  image: number | Media;
+  ImageAspectRatio?: ('Quadrat' | 'Breit' | 'Hoch') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'image';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subpages".
+ */
+export interface Subpage {
+  id: number;
+  name: string;
+  slug: string;
+  parentPage?: (number | null) | Page;
+  layout?:
+    | (
+        | {
+            description: string;
+            image: number | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Image
+      )[]
     | null;
-  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -307,14 +299,6 @@ export interface User {
 export interface PayloadLockedDocument {
   id: number;
   document?:
-    | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
-        relationTo: 'subpages';
-        value: number | Subpage;
-      } | null)
     | ({
         relationTo: 'users';
         value: number | User;
@@ -326,6 +310,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'texts';
         value: number | Text;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'subpages';
+        value: number | Subpage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -368,67 +360,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  image?:
-    | T
-    | {
-        hero?:
-          | T
-          | {
-              heading?: T;
-              subheading?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        image?: T | ImageSelect<T>;
-      };
-  subPages?: T;
-  texts?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "image_select".
- */
-export interface ImageSelect<T extends boolean = true> {
-  image?: T;
-  ImageAspectRatio?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subpages_select".
- */
-export interface SubpagesSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  parentPage?: T;
-  layout?:
-    | T
-    | {
-        hero?:
-          | T
-          | {
-              heading?: T;
-              subheading?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        image?: T | ImageSelect<T>;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -494,6 +425,72 @@ export interface TextsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  image?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              description?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        image?: T | ImageSelect<T>;
+        richtext?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  subPages?: T;
+  texts?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "image_select".
+ */
+export interface ImageSelect<T extends boolean = true> {
+  image?: T;
+  ImageAspectRatio?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subpages_select".
+ */
+export interface SubpagesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  parentPage?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              description?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        image?: T | ImageSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -523,6 +520,33 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage".
+ */
+export interface Homepage {
+  id: number;
+  featuredimage?:
+    | {
+        description: string;
+        image: number | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }[]
+    | null;
+  news?:
+    | {
+        date?: string | null;
+        titel?: string | null;
+        involved?: string | null;
+        location?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -628,6 +652,36 @@ export interface Contact {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage_select".
+ */
+export interface HomepageSelect<T extends boolean = true> {
+  featuredimage?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              description?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  news?:
+    | T
+    | {
+        date?: T;
+        titel?: T;
+        involved?: T;
+        location?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -9,6 +9,8 @@ import { fileURLToPath } from 'url'
 import config from '@/payload.config'
 import HeroBlock from '@/blocks/hero/HeroBlock'
 import ImageBlock from '@/blocks/image/ImageBlock'
+import PageNotFound from '@/components/PageNotFound'
+import HookMasonry from '@/components/Gallery/HookMasonry'
 
 export default async function FirstPage({ params }: { params: { slug: string } }) {
   const headers = await getHeaders()
@@ -20,6 +22,7 @@ export default async function FirstPage({ params }: { params: { slug: string } }
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
+  // let's find out if we got a page with the slug from the param's
   const {
     docs: [page],
   } = await payload.find({
@@ -30,7 +33,7 @@ export default async function FirstPage({ params }: { params: { slug: string } }
   })
 
   if (!page) {
-    return <div>Page not found</div>
+    return <PageNotFound />
   }
 
   // goal: centralize this
@@ -57,8 +60,17 @@ export default async function FirstPage({ params }: { params: { slug: string } }
       </div>
       <div className="page">{page.layout?.map((block) => renderBlock(block))}</div>
       <div>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
+        {!user && <h1>Welcome to the homepage of your new project.</h1>}
+        {user && <h1>Welcome back to the home page, {user.email}</h1>}
+      </div>
+      {/*      <RenderAddTextItems addText={page.addText} /> */}
+      {/*     Adding padding directly to the container reduces the space available for columns, which can
+      cause fewer columns to appear. To keep the masonry layout consistent, avoid adding padding
+      directly to the element with columns- classes; instead, add it to an inner wrapper.  */}
+      <div className="w-4/5 mx-auto py-10">
+        <div className="px-4">
+          <HookMasonry />
+        </div>
       </div>
     </div>
   )

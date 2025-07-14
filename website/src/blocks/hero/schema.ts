@@ -6,7 +6,6 @@ export const HeroBlock: Block = {
     {
       name: 'description',
       type: 'text',
-      required: true,
     },
     {
       name: 'image',

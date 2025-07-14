@@ -14,7 +14,10 @@ export const Homepage: GlobalConfig = {
       label: 'Bild',
       type: 'blocks',
       blocks: [HeroBlock],
-      maxRows: 3,
+      admin: {
+        description:
+          'Das erste Bild in dieser Liste wird auf der Homepage prominent angezeigt. Zum Sortieren auf das Feld mit den kleinen Punkten links oben klicken und in die gewünschte Reihenfolge ziehen.',
+      },
     },
     {
       name: 'news',

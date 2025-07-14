@@ -223,7 +223,7 @@ export interface Page {
   image?:
     | (
         | {
-            description: string;
+            description?: string | null;
             image: number | Media;
             id?: string | null;
             blockName?: string | null;
@@ -280,7 +280,7 @@ export interface Subpage {
   layout?:
     | (
         | {
-            description: string;
+            description?: string | null;
             image: number | Media;
             id?: string | null;
             blockName?: string | null;
@@ -527,9 +527,12 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Homepage {
   id: number;
+  /**
+   * Das erste Bild in dieser Liste wird auf der Homepage prominent angezeigt. Zum Sortieren auf das Feld mit den kleinen Punkten links oben klicken und in die gewünschte Reihenfolge ziehen.
+   */
   featuredimage?:
     | {
-        description: string;
+        description?: string | null;
         image: number | Media;
         id?: string | null;
         blockName?: string | null;

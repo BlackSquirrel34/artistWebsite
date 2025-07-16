@@ -1,12 +1,14 @@
 'use client'
+import { NavLink } from '@/payload-types'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
 interface SubRespNavProps {
   ownerName: string
+  navData: NavLink
 }
 
-export default function SubRespNav({ ownerName }: SubRespNavProps) {
+export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
   const [isOpen, setIsOpen] = useState(false) // mobile menu toggle
   const [activeMainIndex, setActiveMainIndex] = useState(null) // submenu toggle
 
@@ -14,8 +16,6 @@ export default function SubRespNav({ ownerName }: SubRespNavProps) {
     setIsOpen(!isOpen)
   }
 
-  // should be called from global "navitems" that is popualted via a hook
-  // whenever a new page is added
   // we should do this also server-side, inside the fetchNavData helper function
   const mainNavItems = [
     {
@@ -49,10 +49,20 @@ export default function SubRespNav({ ownerName }: SubRespNavProps) {
     setActiveMainIndex(index === activeMainIndex ? null : index)
   }
 
+  // inserted
+  //  Crucially, handle potential null/undefined values
+  const displayedNavItems = navData?.navItems || []
+
+  // Check for valid data structure
+  if (!Array.isArray(displayedNavItems)) {
+    console.error('navData.navItems is not an array:', navData)
+    return <div>Invalid navigation data</div>
+  }
+
   return (
     <nav className="bg-gray-900 text-white relative">
       {/* Desktop & Mobile Container */}
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+      <div className="container mx-auto flex items-center justify-between px-4 py-6">
         {/* Logo/Home */}
         <div className="text-xl font-bold">
           <Link href="/">{ownerName}</Link>
@@ -82,8 +92,8 @@ export default function SubRespNav({ ownerName }: SubRespNavProps) {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex space-x-6">
-          {mainNavItems.map((item, index) => (
+        <div className="hidden lg:flex flex-wrap justify-center max-w-[60.3333%] mx-auto space-x-6">
+          {displayedNavItems.map((item, index) => (
             <div key={index} className="relative group">
               {/* Main link/button */}
               <button
@@ -94,9 +104,9 @@ export default function SubRespNav({ ownerName }: SubRespNavProps) {
               </button>
               {/* Submenu on hover or click */}
               <ul className="absolute hidden group-hover:block bg-gray-800 rounded shadow-lg py-2 min-w-max z-10">
-                {item.subItems.map((subItem, subIdx) => (
+                {item.subpageLinks?.map((subItem, subIdx) => (
                   <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                    <Link href={subItem.href}>{subItem.label}</Link>
+                    <Link href={subItem.link || '#'}>{subItem.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -109,23 +119,29 @@ export default function SubRespNav({ ownerName }: SubRespNavProps) {
       {isOpen && (
         <div className="lg:hidden absolute w-full bg-gray-900 z-20">
           <ul className="space-y-4 px-4 pb-4">
-            {mainNavItems.map((item, index) => (
+            {displayedNavItems.map((item, index) => (
               <li key={index}>
-                {/* Main item button */}
+                {/* Main item button. Expands only if tehre actually are subItems to show */}
                 <button
-                  onClick={() => handleMainClick(index)}
+                  onClick={() => {
+                    if (item.subpageLinks && item.subpageLinks.length > 0) {
+                      handleMainClick(index)
+                    }
+                  }}
                   className="w-full text-left px-2 py-1 hover:bg-gray-700 flex justify-between items-center"
                 >
                   {item.label}
-                  {/* Arrow indicator for submenu */}
-                  <span>{activeMainIndex === index ? '▲' : '▼'}</span>
+                  {/* Show arrow only if there are subpageLinks */}
+                  {item.subpageLinks && item.subpageLinks.length > 0 && (
+                    <span>{activeMainIndex === index ? '▲' : '▼'}</span>
+                  )}
                 </button>
                 {/* Submenu, toggle open/close */}
                 {activeMainIndex === index && (
                   <ul className="pl-4 mt-2 space-y-2">
-                    {item.subItems.map((subItem, subIdx) => (
+                    {item.subpageLinks?.map((subItem, subIdx) => (
                       <li key={subIdx} className="px-2 py-1 hover:bg-gray-700">
-                        <Link href={subItem.href}>{subItem.label}</Link>
+                        <Link href={subItem.link || '#'}>{subItem.label}</Link>
                       </li>
                     ))}
                   </ul>

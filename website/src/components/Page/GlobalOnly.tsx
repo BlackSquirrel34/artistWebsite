@@ -28,13 +28,13 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
       <div className="mt-4 p-4 bg-gray-100 rounded overflow-x-auto">
         {loadedGlobals?.map((global, index) => (
           <div key={index}>
-            {/* if there's a contact global presnet in the array, we'll render it */}
+            {/* if there's a contact global present in the array, we'll render it */}
             {global.contactDetails && typeof global.contactDetails === 'object' && (
               <div>
                 {/* Extract values using optional chaining and safe property access */}
-                <p>Name: {global.contactDetails?.name || 'N/A'}</p>
-                <p>Address: {global.contactDetails?.address || 'N/A'}</p>
-                <p>Email: {global.contactDetails?.email || 'N/A'}</p>
+                <p>{global.contactDetails?.name || 'N/A'}</p>
+                <p>{global.contactDetails?.address || 'N/A'}</p>
+                <p>{global.contactDetails?.email || 'N/A'}</p>
               </div>
             )}
 
@@ -47,7 +47,7 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
                   </p>
                 </div>
               ))}
-
+            {/* if the global with the years with exhibitions is present, render this one */}
             {global.exhibYears && (
               <>
                 <h1 className="text-2xl">Ausstellungsbeteiligungen (Auswahl)</h1>
@@ -65,6 +65,7 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
               </>
             )}
 
+            {/* if the global with the years participated in exhibitions is present, render this one */}
             {global.yearExhibPart && (
               <>
                 <h1 className="text-2xl">Ausstellungsbeteiligungen (Auswahl)</h1>
@@ -82,6 +83,7 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
               </>
             )}
 
+            {/* if the global with tacquisitions is present, render this one */}
             {global.acquisitionEvents && (
               <>
                 <h1 className="text-2xl">Ankäufe</h1>

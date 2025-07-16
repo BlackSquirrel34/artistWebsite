@@ -92,6 +92,7 @@ export interface Config {
   };
   globals: {
     homepage: Homepage;
+    navLinks: NavLink;
     footer: Footer;
     exhibition: Exhibition;
     exhibpart: Exhibpart;
@@ -101,6 +102,7 @@ export interface Config {
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
+    navLinks: NavLinksSelect<false> | NavLinksSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     exhibition: ExhibitionSelect<false> | ExhibitionSelect<true>;
     exhibpart: ExhibpartSelect<false> | ExhibpartSelect<true>;
@@ -552,6 +554,33 @@ export interface Homepage {
   createdAt?: string | null;
 }
 /**
+ * Hier lassen sich die oben in der Navigation angezeigten Links anpassen.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navLinks".
+ */
+export interface NavLink {
+  id: number;
+  navItems?:
+    | {
+        label?: string | null;
+        years?: string | null;
+        link?: string | null;
+        subpageLinks?:
+          | {
+              label?: string | null;
+              years?: string | null;
+              link?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
@@ -680,6 +709,31 @@ export interface HomepageSelect<T extends boolean = true> {
         titel?: T;
         involved?: T;
         location?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navLinks_select".
+ */
+export interface NavLinksSelect<T extends boolean = true> {
+  navItems?:
+    | T
+    | {
+        label?: T;
+        years?: T;
+        link?: T;
+        subpageLinks?:
+          | T
+          | {
+              label?: T;
+              years?: T;
+              link?: T;
+              id?: T;
+            };
         id?: T;
       };
   updatedAt?: T;

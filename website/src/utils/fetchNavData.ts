@@ -1,7 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
-export default async function FetchNavData(): Promise<string> {
+export async function fetchOwnerName(): Promise<string> {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -19,7 +19,26 @@ export default async function FetchNavData(): Promise<string> {
   }
 
   const ownerName = contactInfo.contactDetails.name
-  console.log('ownername queried with helper function: ', ownerName)
-
   return ownerName
+}
+
+export default async function FetchNavData() {
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
+
+  // console.log('ownername queried with helper function: ', ownerName)
+
+  // querying for navigation links form global "navigation"
+  const navData = await payload.findGlobal({
+    slug: 'navLinks',
+    depth: 3,
+  })
+
+  /*   if (!navLinks) {
+    return {}
+  } */
+
+  console.log('navLinks queried with helper function: ', navData)
+
+  return navData
 }

@@ -22,6 +22,7 @@ import { ExhibParts } from './globals/ExhibParts'
 import { Acquisitions } from './globals/Acquisitions'
 import { ContactInformation } from './globals/Contact'
 import { Homepage } from './globals/Homepage'
+import { NavLinks } from './globals/NavLinks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,7 +38,16 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Texts, Pages, Subpages],
-  globals: [Homepage, Footer, Exhibitions, ExhibParts, Acquisitions, CV, ContactInformation],
+  globals: [
+    Homepage,
+    NavLinks,
+    Footer,
+    Exhibitions,
+    ExhibParts,
+    Acquisitions,
+    CV,
+    ContactInformation,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

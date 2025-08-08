@@ -9,6 +9,8 @@ import TextsOnly from '@/components/Page/TextsOnly'
 import GlobalOnly from '@/components/Page/GlobalOnly'
 
 export async function generateContent(slug: string): Promise<JSX.Element> {
+  console.log('Generating content for slug:', slug)
+
   // we need to ensure we'll return a <notFound /> jsx in case nothing matches the slug and we'd
   // otherwise return null
   const payloadConfig = await config
@@ -23,6 +25,7 @@ export async function generateContent(slug: string): Promise<JSX.Element> {
       slug: { equals: slug },
     },
   })
+  console.log('Fetched page:', page)
 
   // are there one or several globals with this slug?
   const found_globals = await getGlobalsBySlug(slug)

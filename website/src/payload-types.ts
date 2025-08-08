@@ -254,7 +254,6 @@ export interface Page {
           }
       )[]
     | null;
-  subPages?: (number | Subpage)[] | null;
   texts?: (number | Text)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -278,7 +277,7 @@ export interface Subpage {
   id: number;
   name: string;
   slug: string;
-  parentPage?: (number | null) | Page;
+  parentPage: number | Page;
   layout?:
     | (
         | {
@@ -452,7 +451,6 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
-  subPages?: T;
   texts?: T;
   updatedAt?: T;
   createdAt?: T;

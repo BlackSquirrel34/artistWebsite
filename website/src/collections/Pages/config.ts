@@ -37,13 +37,13 @@ export const Pages: CollectionConfig = {
       blocks: [HeroBlock, ImageBlock, RichTextBlock],
     },
     // Add relationship to sub-pages
-    {
+    /*    {
       name: 'subPages',
       type: 'relationship',
       label: 'Unterseite',
       relationTo: 'subpages',
       hasMany: true,
-    },
+    }, */
     // add texts if needed
     {
       name: 'texts',

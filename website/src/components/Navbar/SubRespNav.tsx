@@ -16,35 +16,6 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
     setIsOpen(!isOpen)
   }
 
-  // we should do this also server-side, inside the fetchNavData helper function
-  const mainNavItems = [
-    {
-      label: 'Page',
-      href: '/',
-      subItems: [
-        { label: 'Sub1', href: '/sub1' },
-        { label: 'Sub2', href: '/sub2' },
-        { label: 'Sub3', href: '/sub3' },
-      ],
-    },
-    {
-      label: 'About',
-      href: '/about',
-      subItems: [
-        { label: 'SubA', href: '/subA' },
-        { label: 'SubB', href: '/subB' },
-      ],
-    },
-    {
-      label: 'Contact',
-      href: '/contact',
-      subItems: [
-        { label: 'SubX', href: '/subX' },
-        { label: 'SubY', href: '/subY' },
-      ],
-    },
-  ]
-
   const handleMainClick = (index) => {
     setActiveMainIndex(index === activeMainIndex ? null : index)
   }
@@ -100,13 +71,17 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
                 onClick={() => handleMainClick(index)}
                 className="hover:text-gray-300 focus:outline-none"
               >
-                {item.label}
+                <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/${item.link}` || '#'}>
+                  {item.label}
+                </Link>
               </button>
               {/* Submenu on hover or click */}
               <ul className="absolute hidden group-hover:block bg-gray-800 rounded shadow-lg py-2 min-w-max z-10">
                 {item.subpageLinks?.map((subItem, subIdx) => (
                   <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                    <Link href={subItem.link || '#'}>{subItem.label}</Link>
+                    <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/${subItem.link}` || '#'}>
+                      {subItem.label}
+                    </Link>
                   </li>
                 ))}
               </ul>

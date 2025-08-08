@@ -19,8 +19,7 @@ export default async function FirstPage({ params }: { params: { slug: string } }
   )
 }
 
-{
-  /* </div>
+/* </div>
     <div
       className="flex flex-col min-h-screen bg-blue-700
     text-amber-300"
@@ -44,7 +43,6 @@ export default async function FirstPage({ params }: { params: { slug: string } }
         </div>
       </div>
     </div> */
-}
 
 // goal: centralize this
 // gets passed in one block and switches depending on its type

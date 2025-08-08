@@ -43,7 +43,7 @@ export const Subpages: CollectionConfig = {
       name: 'layout',
       label: 'Layout',
       type: 'blocks',
-      blocks: [HeroBlock, ImageBlock],
+      blocks: [ImageBlock],
     },
   ],
 }

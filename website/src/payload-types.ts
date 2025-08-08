@@ -278,18 +278,7 @@ export interface Subpage {
   name: string;
   slug: string;
   parentPage: number | Page;
-  layout?:
-    | (
-        | {
-            description?: string | null;
-            image: number | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | Image
-      )[]
-    | null;
+  layout?: Image[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -476,14 +465,6 @@ export interface SubpagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        hero?:
-          | T
-          | {
-              description?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
         image?: T | ImageSelect<T>;
       };
   updatedAt?: T;

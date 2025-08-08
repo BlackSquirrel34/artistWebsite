@@ -71,7 +71,14 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
                 onClick={() => handleMainClick(index)}
                 className="hover:text-gray-300 focus:outline-none"
               >
-                <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/${item.link}` || '#'}>
+                {/* The page landscape does not exist so we disable navigation */}
+                <Link
+                  href={
+                    item.link === 'landschaft'
+                      ? '#'
+                      : `${process.env.NEXT_PUBLIC_BASE_URL}/${item.link}` || '#'
+                  }
+                >
                   {item.label}
                 </Link>
               </button>

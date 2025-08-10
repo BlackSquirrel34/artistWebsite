@@ -10,7 +10,7 @@ export const ContactInformation: GlobalConfig = {
     {
       name: 'contactDetails',
       label: 'Kontaktinformationen',
-      type: 'group', // or 'object', depending on Payload version
+      type: 'group',
       required: true,
       fields: [
         {

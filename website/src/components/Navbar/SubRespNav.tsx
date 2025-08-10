@@ -71,7 +71,7 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
                 onClick={() => handleMainClick(index)}
                 className="hover:text-gray-300 focus:outline-none"
               >
-                {/* The page landscape does not exist so we disable navigation */}
+                {/* The page landscape does not exist unless as logical entity (parent page for subpages) so we disable navigation */}
                 <Link
                   href={
                     item.link === 'landschaft'

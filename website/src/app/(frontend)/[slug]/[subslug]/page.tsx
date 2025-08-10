@@ -8,11 +8,9 @@ interface PageProps {
 }
 
 // we defined subpages can ONLY have images (no text, no slugs related to globals)
-// so the whole generateSubPageContent logic is a lot simpler
+// so the whole generateSubPageContent logic is simpler
 
 export default async function SubPage({ params }: PageProps) {
-  // const headers = await getHeaders()
-  //  const { user } = await payload.auth({ headers })
   // inside an app directory, the slug is directly available but must be awaited
   const { slug, subslug } = await params
   console.log('slug: ', slug, 'subslug: ', subslug)
@@ -20,18 +18,6 @@ export default async function SubPage({ params }: PageProps) {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   const subcontent = generateSubpageContent(subslug)
-
-  // gets passed in one block and switches depending on its type
-  /*   const renderBlock = (block: Page['layout'][0]) => {
-    switch (block.blockType) {
-      case 'hero':
-        return <HeroBlock block={block} key={block.id} />
-      case 'image':
-        return <ImageBlock block={block} key={block.id} />
-      default:
-        return null
-    }
-  } */
 
   return (
     <div className="flex flex-col min-h-screen bg-white">

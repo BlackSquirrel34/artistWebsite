@@ -11,7 +11,7 @@ export default function TextsOnly({ page }: { page: Page }) {
 
   return (
     <div>
-      <div>Hello from texts only</div>
+      {/*      <div>Hello from texts only</div> */}
       <pre className="mt-4 p-4 bg-gray-100 rounded overflow-x-auto">
         {JSON.stringify(page, null, 2)}
       </pre>

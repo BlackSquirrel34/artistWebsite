@@ -21,7 +21,7 @@ export default async function HomePage() {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   const homepage_api_data = await payload.findGlobal({
-    slug: 'homepage', // required
+    slug: 'homepage',
   })
 
   if (!homepage_api_data) {

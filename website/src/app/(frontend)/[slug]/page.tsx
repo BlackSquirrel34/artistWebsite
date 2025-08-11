@@ -1,8 +1,10 @@
 import { fileURLToPath } from 'url'
-
 import { generateContent } from '@/components/Page/generateContent'
 
-export default async function FirstPage({ params }: { params: { slug: string } }) {
+// again: https://fortifiedhq.com/blog/next-js-15-dynamic-routes-params-promise
+type ParamsType = Promise<{ slug: string }>
+
+export default async function FirstPage({ params }: { params: ParamsType }) {
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 
   // inside an app directory, the slug is directly available

@@ -86,8 +86,8 @@ const images: ImageMT[] = [
     id: 10,
     name: 'Example Image 4',
     alt: 'A description of example image 4',
-    width: 1024,
-    height: 768,
+    /*     width: 1024,
+    height: 768, */
     url: '/jet.jpg',
   },
   {

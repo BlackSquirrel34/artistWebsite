@@ -10,13 +10,17 @@ interface SubRespNavProps {
 
 export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
   const [isOpen, setIsOpen] = useState(false) // mobile menu toggle
-  const [activeMainIndex, setActiveMainIndex] = useState(null) // submenu toggle
+  const [activeMainIndex, setActiveMainIndex] = useState<number | null>(null) // submenu toggle
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleMainClick = (index) => {
+  interface MainClickHandler {
+    (index: number): void
+  }
+
+  const handleMainClick: MainClickHandler = (index) => {
     setActiveMainIndex(index === activeMainIndex ? null : index)
   }
 

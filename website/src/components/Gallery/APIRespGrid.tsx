@@ -11,8 +11,8 @@ export default function APIResponsiveGridGallery({ api_images }: APIResponsiveGr
   // const images = getImages2()
   const images = api_images
 
-  const gridColumnCountLarge = 12
-  const gridColumnCountMedium = 6
+  const gridColumnCountLarge = 24
+  const gridColumnCountMedium = 12
   const gridColumnCountSmall = 1
 
   // Compute spans for each image based on some rules
@@ -22,15 +22,15 @@ export default function APIResponsiveGridGallery({ api_images }: APIResponsiveGr
 
     // for images in landscape orientation
     if (aspectRatio >= 2) {
-      colSpanLarge = Math.round((2 / 3) * gridColumnCountLarge) // 8
+      colSpanLarge = Math.round((2 / 3) * gridColumnCountLarge)
       colSpanMedium = gridColumnCountMedium // full width
     } else if (aspectRatio <= 0.7) {
       // for images in mroe portrait-like orienation
-      colSpanLarge = Math.round((1 / 3) * gridColumnCountLarge) // 4
-      colSpanMedium = Math.round((1 / 2) * gridColumnCountMedium) // 3
+      colSpanLarge = Math.round((1 / 3) * gridColumnCountLarge)
+      colSpanMedium = Math.round((1 / 2) * gridColumnCountMedium)
     } else {
-      colSpanLarge = Math.round((1 / 2) * gridColumnCountLarge) // 6
-      colSpanMedium = Math.round((1 / 2) * gridColumnCountMedium) // 3
+      colSpanLarge = Math.round((1 / 2) * gridColumnCountLarge)
+      colSpanMedium = Math.round((1 / 2) * gridColumnCountMedium)
     }
 
     return {

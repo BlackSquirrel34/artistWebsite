@@ -1,5 +1,5 @@
 // Define the interface for your image object
-export interface ImageT {
+export interface ImageMT {
   id: number
   name: string
   alt: string
@@ -9,7 +9,7 @@ export interface ImageT {
 }
 
 // Mock array of images
-const images: ImageT[] = [
+const images: ImageMT[] = [
   {
     id: 1,
     name: 'Example Image 1',
@@ -205,15 +205,15 @@ const images: ImageT[] = [
 ]
 
 // Example function to get all images
-export function getImages(): ImageT[] {
+export function getImagesM(): ImageMT[] {
   return images
 }
 
 // Example function to get an image by filename
-export function getImageByFilename(filename: string): ImageT | undefined {
+export function getImageByFilename(filename: string): ImageMT | undefined {
   return images.find((image) => image.url.endsWith(filename))
 }
 
 // Usage
-console.log(getImages())
+console.log(getImagesM())
 console.log(getImageByFilename('waves.jpg'))

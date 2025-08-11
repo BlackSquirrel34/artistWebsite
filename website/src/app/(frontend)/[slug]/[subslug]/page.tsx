@@ -11,8 +11,8 @@ interface PageProps {
 // so the whole generateSubPageContent logic is simpler
 
 export default async function SubPage({ params }: PageProps) {
-  // inside an app directory, the slug is directly available but must be awaited
-  const { slug, subslug } = await params
+  // imaybe not necessary to await params?
+  const { slug, subslug } = params
   console.log('slug: ', slug, 'subslug: ', subslug)
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`

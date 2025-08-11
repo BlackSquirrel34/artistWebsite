@@ -1,5 +1,7 @@
 import { Subpage } from '@/payload-types'
 import HookMasonry from '../Gallery/HookMasonry'
+import TinyGridGallery from '../Gallery/TinyGrid'
+import ResponsiveGridGallery from '../Gallery/ResposiveGrid'
 
 // we won't ever meet a global with imges only
 export default function ImagesOnly({ subpage }: { subpage: Subpage }) {
@@ -11,7 +13,7 @@ export default function ImagesOnly({ subpage }: { subpage: Subpage }) {
     <div>
       {/*   <div>Hello from images only</div> */}
       <div>
-        <HookMasonry />
+        <ResponsiveGridGallery />
       </div>
 
       {/*     <pre className="mt-4 p-4 bg-gray-100 rounded overflow-x-auto">

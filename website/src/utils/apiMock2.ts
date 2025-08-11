@@ -15,7 +15,7 @@ import ocean from '@/assets/ocean.jpg'
 import waves from '@/assets/waves.jpg'
 import forest from '@/assets/forest.jpg'
 import fluegelfackel from '@/assets/fluegelfackel.jpg'
-import eisberge from '@/assets/eisberge.jpg'
+import eisberge from '@/assets/Eisberge.jpg'
 import { StaticImageData } from 'next/image'
 
 export interface ImageT {

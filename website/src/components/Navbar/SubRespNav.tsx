@@ -90,11 +90,11 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
               {/* Submenu on hover or click */}
               <ul className="absolute hidden group-hover:block bg-gray-800 rounded shadow-lg py-2 min-w-max z-10">
                 {item.subpageLinks?.map((subItem, subIdx) => (
-                  <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
-                    <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                  <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                    <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
                       {subItem.label}
-                    </li>
-                  </Link>
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -129,11 +129,11 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
                 {activeMainIndex === index && (
                   <ul className="pl-4 mt-2 space-y-2">
                     {item.subpageLinks?.map((subItem, subIdx) => (
-                      <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
-                        <li key={subIdx} className="px-2 py-1 hover:bg-gray-700">
+                      <li key={subIdx} className="px-2 py-1 hover:bg-gray-700">
+                        <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
                           {subItem.label}
-                        </li>
-                      </Link>
+                        </Link>
+                      </li>
                     ))}
                   </ul>
                 )}

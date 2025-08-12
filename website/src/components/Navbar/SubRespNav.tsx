@@ -1,7 +1,7 @@
 'use client'
 import { NavLink } from '@/payload-types'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 interface SubRespNavProps {
   ownerName: string
@@ -9,8 +9,16 @@ interface SubRespNavProps {
 }
 
 export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
+  const [baseUrl, setBaseUrl] = useState('') // replaces NEXT_PUBLIC_BASE_URL: we just grab the path we're currently on
   const [isOpen, setIsOpen] = useState(false) // mobile menu toggle
   const [activeMainIndex, setActiveMainIndex] = useState<number | null>(null) // submenu toggle
+
+  // we check whether there's window and grab the BASE_URL: localhost:3000 or the production URL
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setBaseUrl(window.location.origin)
+    }
+  }, [])
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -71,29 +79,22 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
           {displayedNavItems.map((item, index) => (
             <div key={index} className="relative group">
               {/* Main link/button */}
-              <button
-                onClick={() => handleMainClick(index)}
-                className="hover:text-gray-300 focus:outline-none"
-              >
-                {/* The page landscape does not exist unless as logical entity (parent page for subpages) so we disable navigation */}
-                <Link
-                  href={
-                    item.link === 'landschaft'
-                      ? '#'
-                      : `${process.env.NEXT_PUBLIC_BASE_URL}/${item.link}` || '#'
-                  }
+              <Link href={item.link ? `${baseUrl}/${item.link}` : '#'}>
+                <button
+                  onClick={() => handleMainClick(index)}
+                  className="hover:text-gray-300 focus:outline-none"
                 >
                   {item.label}
-                </Link>
-              </button>
+                </button>
+              </Link>
               {/* Submenu on hover or click */}
               <ul className="absolute hidden group-hover:block bg-gray-800 rounded shadow-lg py-2 min-w-max z-10">
                 {item.subpageLinks?.map((subItem, subIdx) => (
-                  <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                    <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/${subItem.link}` || '#'}>
+                  <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
+                    <li key={subIdx} className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
                       {subItem.label}
-                    </Link>
-                  </li>
+                    </li>
+                  </Link>
                 ))}
               </ul>
             </div>
@@ -108,27 +109,31 @@ export default function SubRespNav({ ownerName, navData }: SubRespNavProps) {
             {displayedNavItems.map((item, index) => (
               <li key={index}>
                 {/* Main item button. Expands only if tehre actually are subItems to show */}
-                <button
-                  onClick={() => {
-                    if (item.subpageLinks && item.subpageLinks.length > 0) {
-                      handleMainClick(index)
-                    }
-                  }}
-                  className="w-full text-left px-2 py-1 hover:bg-gray-700 flex justify-between items-center"
-                >
-                  {item.label}
-                  {/* Show arrow only if there are subpageLinks */}
-                  {item.subpageLinks && item.subpageLinks.length > 0 && (
-                    <span>{activeMainIndex === index ? '▲' : '▼'}</span>
-                  )}
-                </button>
+                <Link href={item.link ? `${baseUrl}/${item.link}` : '#'}>
+                  <button
+                    onClick={() => {
+                      if (item.subpageLinks && item.subpageLinks.length > 0) {
+                        handleMainClick(index)
+                      }
+                    }}
+                    className="w-full text-left px-2 py-1 hover:bg-gray-700 flex justify-between items-center"
+                  >
+                    {item.label}
+                    {/* Show arrow only if there are subpageLinks */}
+                    {item.subpageLinks && item.subpageLinks.length > 0 && (
+                      <span>{activeMainIndex === index ? '▲' : '▼'}</span>
+                    )}
+                  </button>
+                </Link>
                 {/* Submenu, toggle open/close */}
                 {activeMainIndex === index && (
                   <ul className="pl-4 mt-2 space-y-2">
                     {item.subpageLinks?.map((subItem, subIdx) => (
-                      <li key={subIdx} className="px-2 py-1 hover:bg-gray-700">
-                        <Link href={subItem.link || '#'}>{subItem.label}</Link>
-                      </li>
+                      <Link href={subItem.link ? `${baseUrl}/${subItem.link}` : '#'}>
+                        <li key={subIdx} className="px-2 py-1 hover:bg-gray-700">
+                          {subItem.label}
+                        </li>
+                      </Link>
                     ))}
                   </ul>
                 )}

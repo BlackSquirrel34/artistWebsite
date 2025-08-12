@@ -50,18 +50,37 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
             {/* if the global with the years with exhibitions is present, render this one */}
             {global.exhibYears && (
               <>
-                <h1 className="text-2xl">Ausstellungsbeteiligungen (Auswahl)</h1>
-                {global.exhibYears.map((yearData, index) => (
-                  <div key={index}>
-                    <h3 className="text-xl">{yearData.year}</h3>
-                    {yearData.exhibitions.map((exhibition, subIndex) => (
-                      <div key={subIndex}>
-                        <p>{exhibition.description}</p>
-                        {exhibition.katalog !== null && ' K'}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                <h1 className="text-2xl">Einzelausstellungen (Auswahl)</h1>
+                {global.exhibYears.map(
+                  (
+                    yearData: {
+                      year: string
+                      exhibitions: {
+                        description: string
+                        katalog?: boolean
+                      }[]
+                    },
+                    index: number,
+                  ) => (
+                    <div key={index}>
+                      <h3 className="text-xl">{yearData.year}</h3>
+                      {yearData.exhibitions.map(
+                        (
+                          exhibition: {
+                            description: string
+                            katalog?: boolean
+                          },
+                          subIndex: number,
+                        ) => (
+                          <div key={subIndex}>
+                            <p>{exhibition.description}</p>
+                            {exhibition.katalog && ' K'}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ),
+                )}
               </>
             )}
 
@@ -69,17 +88,36 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
             {global.yearExhibPart && (
               <>
                 <h1 className="text-2xl">Ausstellungsbeteiligungen (Auswahl)</h1>
-                {global.yearExhibPart.map((yearData, index) => (
-                  <div key={index}>
-                    <h3 className="text-xl">{yearData.year}</h3>
-                    {yearData.exhibitions.map((exhibition, subIndex) => (
-                      <div key={subIndex}>
-                        <p>{exhibition.description}</p>
-                        {exhibition.katalog !== null && ' K'}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {global.yearExhibPart.map(
+                  (
+                    yearData: {
+                      year: string
+                      exhibitions: {
+                        description: string
+                        katalog: boolean
+                      }[]
+                    },
+                    index: number,
+                  ) => (
+                    <div key={index}>
+                      <h3 className="text-xl">{yearData.year}</h3>
+                      {yearData.exhibitions.map(
+                        (
+                          exhibition: {
+                            description: string
+                            katalog: boolean
+                          },
+                          subIndex: number,
+                        ) => (
+                          <div key={subIndex}>
+                            <p>{exhibition.description}</p>
+                            {exhibition.katalog && ' K'}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ),
+                )}
               </>
             )}
 
@@ -87,11 +125,21 @@ export default function GlobalOnly({ globals }: GlobalOnlyProps) {
             {global.acquisitionEvents && (
               <>
                 <h1 className="text-2xl">Ankäufe</h1>
-                {global.acquisitionEvents.map((event, index) => (
-                  <div key={index}>
-                    <p>{event.description}</p>
-                  </div>
-                ))}
+                {global.acquisitionEvents.map(
+                  (
+                    event: {
+                      year: string
+                      description: string
+                    },
+                    index: number,
+                  ) => (
+                    <div key={index}>
+                      <p>
+                        <strong>{event.year}</strong> {event.description}
+                      </p>
+                    </div>
+                  ),
+                )}
               </>
             )}
 

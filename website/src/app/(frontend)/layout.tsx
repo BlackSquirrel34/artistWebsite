@@ -1,6 +1,5 @@
 import React from 'react'
 import '@/styles/global.css'
-import FooterServer from '@/blocks/global/Footer/Server'
 import SubRespNav from '@/components/Navbar/SubRespNav'
 import Footer from '@/components/Footer'
 import FetchNavData, { fetchOwnerName } from '@/utils/fetchNavData'

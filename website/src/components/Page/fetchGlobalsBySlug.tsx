@@ -8,7 +8,7 @@ export async function getGlobalsBySlug(slug: string): Promise<Record<string, any
   const payload = await getPayload({ config: payloadConfig })
 
   // simplified type
-  let globals: Record<string, any>[] = []
+  const globals: Record<string, any>[] = []
 
   if (slug === 'biographie') {
     try {

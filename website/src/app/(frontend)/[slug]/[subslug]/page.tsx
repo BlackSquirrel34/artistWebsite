@@ -1,19 +1,18 @@
 import { fileURLToPath } from 'url'
 import { generateSubpageContent } from '@/components/Subpage/generateSubContent'
-interface PageProps {
-  params: {
-    slug: string
-    subslug: string
-  }
-}
+
+// New pattern - Next.js 15
+// Define params as a Promise
+type ParamsType = Promise<{ slug: string; subslug: string }>
 
 // we defined subpages can ONLY have images (no text, no slugs related to globals)
 // so the whole generateSubPageContent logic is simpler
 
-export default async function SubPage({ params }: PageProps) {
-  // inside an app directory, the slug is directly available but must be awaited
+export default async function SubPage({ params }: { params: ParamsType }) {
+  // params must be awaited in next 15, along with correct type declaration
+  // https://fortifiedhq.com/blog/next-js-15-dynamic-routes-params-promise
   const { slug, subslug } = await params
-  console.log('slug: ', slug, 'subslug: ', subslug)
+  // console.log('slug: ', slug, 'subslug: ', subslug)
 
   const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
 

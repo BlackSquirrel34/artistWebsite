@@ -1,6 +1,4 @@
 import { Subpage } from '@/payload-types'
-import HookMasonry from '../Gallery/HookMasonry'
-import TinyGridGallery from '../Gallery/TinyGrid'
 import ResponsiveGridGallery from '../Gallery/ResposiveGrid'
 
 // we won't ever meet a global with imges only
@@ -8,7 +6,6 @@ export default function ImagesOnly({ subpage }: { subpage: Subpage }) {
   // need to extract the images from the subpage
   // populate our data structure
 
-  // render images in masonry or whatever nice grid
   return (
     <div>
       {/*   <div>Hello from images only</div> */}
